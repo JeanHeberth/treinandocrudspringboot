@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/projetos")
@@ -38,7 +39,7 @@ public class ProjetoController {
     }
 
     @PutMapping
-    public ResponseEntity<ProjetoResponseDto> updateProjeto(@Validated @RequestBody ProjetoRequestDto projetoRequestDto) {
+    public ResponseEntity<Optional<ProjetoResponseDto>> updateProjeto(@Validated @RequestBody ProjetoRequestDto projetoRequestDto) {
         return ResponseEntity.ok(projetoService.updateProjeto(projetoRequestDto));
     }
 }
