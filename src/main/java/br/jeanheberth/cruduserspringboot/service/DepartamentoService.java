@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class DepartamentoService {
-///
+
     @Autowired
     DepartamentoRepository departamentoRepositoy;
 
@@ -35,12 +35,7 @@ public class DepartamentoService {
     }
 
     public void deleteByIdDepartamento(Long id) {
-        Optional<Departamento> departamento = departamentoRepositoy.findById(id);
-        if (departamento.isPresent()) {
-            departamentoRepositoy.deleteById(id);
-        } else {
-            throw new RuntimeException();
-        }
+        departamentoRepositoy.deleteById(id);
     }
 
     public DepartamentoResponseDto saveDepartamento(DepartamentoRequestDto departamentoRequestDto) {
