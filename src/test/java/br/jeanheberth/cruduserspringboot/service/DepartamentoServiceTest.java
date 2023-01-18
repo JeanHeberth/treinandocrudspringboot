@@ -4,19 +4,19 @@ import br.jeanheberth.cruduserspringboot.dto.DepartamentoRequestDto;
 import br.jeanheberth.cruduserspringboot.dto.DepartamentoResponseDto;
 import br.jeanheberth.cruduserspringboot.entities.Departamento;
 import br.jeanheberth.cruduserspringboot.repository.DepartamentoRepository;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.assertj.core.api.Assertions.*;
 
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
 public class DepartamentoServiceTest {
 
