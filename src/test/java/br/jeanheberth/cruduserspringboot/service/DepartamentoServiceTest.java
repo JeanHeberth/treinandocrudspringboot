@@ -32,9 +32,7 @@ public class DepartamentoServiceTest {
                 .nome("Teste1")
                 .numero(10L)
                 .build();
-        Mockito
-                .when(departamentoRepository.save(Mockito.any(Departamento.class)))
-                .thenReturn(departamento);
+        Mockito.when(departamentoRepository.save(Mockito.any(Departamento.class))).thenReturn(departamento);
 
         //Ação
         DepartamentoResponseDto departamentoSalvo = departamentoService.saveDepartamento(new DepartamentoRequestDto());
