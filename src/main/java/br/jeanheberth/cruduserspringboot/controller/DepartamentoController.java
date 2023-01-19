@@ -28,7 +28,7 @@ public class DepartamentoController {
         return ResponseEntity.ok(departamentoService.findByIdDepartamento(id));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{/id}")
     public void deleteByIdDepartamento(@PathVariable Long id) {
         departamentoService.deleteByIdDepartamento(id);
     }
