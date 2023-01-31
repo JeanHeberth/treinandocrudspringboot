@@ -44,7 +44,7 @@ public class OrcamentoService {
 
     }
 
-    public OrcamentoResponseDto saveDepartamento(OrcamentoRequestDto orcamentoRequestDto) {
+    public OrcamentoResponseDto saveOrcamento(OrcamentoRequestDto orcamentoRequestDto) {
         Optional<Departamento> departamento = departamentoRepository.findById(orcamentoRequestDto.getIdDepartamento());
         Orcamento orcamento = Orcamento.builder()
                 .valor(orcamentoRequestDto.getValor())

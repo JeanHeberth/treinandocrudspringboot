@@ -1,8 +1,6 @@
 package br.jeanheberth.cruduserspringboot.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -15,7 +13,11 @@ import java.util.List;
 @Setter
 @Entity
 @Builder
-public class Departamento extends GenericDomain {
+public class Departamento {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false, length = 45)
     private String nome;

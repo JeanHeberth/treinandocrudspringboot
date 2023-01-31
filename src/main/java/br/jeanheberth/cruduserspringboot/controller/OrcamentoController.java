@@ -35,7 +35,7 @@ public class OrcamentoController {
 
     @PostMapping
     public ResponseEntity<OrcamentoResponseDto> saveOrcamento(@Validated @RequestBody OrcamentoRequestDto orcamentoRequestDto) {
-        return ResponseEntity.ok(orcamentoService.saveDepartamento(orcamentoRequestDto));
+        return ResponseEntity.ok(orcamentoService.saveOrcamento(orcamentoRequestDto));
     }
 
     @PutMapping

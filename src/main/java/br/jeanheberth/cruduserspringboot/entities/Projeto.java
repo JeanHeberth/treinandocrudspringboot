@@ -1,7 +1,6 @@
 package br.jeanheberth.cruduserspringboot.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,7 +15,11 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Builder
-public class Projeto extends GenericDomain{
+public class Projeto {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String nome;
     private Double valorDoProjeto;

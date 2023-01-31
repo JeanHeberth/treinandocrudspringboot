@@ -1,7 +1,6 @@
 package br.jeanheberth.cruduserspringboot.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,7 +14,11 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Builder
-public class Orcamento extends GenericDomain {
+public class Orcamento  {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private Double valor;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
