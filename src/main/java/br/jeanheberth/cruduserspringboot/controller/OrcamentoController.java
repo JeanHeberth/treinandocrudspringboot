@@ -29,12 +29,12 @@ public class OrcamentoController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteByIdOrcamento(@PathVariable Long id) {
+    public void deleteByIdOrcamento(@PathVariable Long id) throws Throwable {
       orcamentoService.deleteByIdOrcamento(id);
     }
 
     @PostMapping
-    public ResponseEntity<OrcamentoResponseDto> saveOrcamento(@Validated @RequestBody OrcamentoRequestDto orcamentoRequestDto) {
+    public ResponseEntity<Optional<OrcamentoResponseDto>> saveOrcamento(@Validated @RequestBody OrcamentoRequestDto orcamentoRequestDto) {
         return ResponseEntity.ok(orcamentoService.saveOrcamento(orcamentoRequestDto));
     }
 

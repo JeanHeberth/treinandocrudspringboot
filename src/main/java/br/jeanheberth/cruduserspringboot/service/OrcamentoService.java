@@ -4,6 +4,7 @@ import br.jeanheberth.cruduserspringboot.dto.OrcamentoRequestDto;
 import br.jeanheberth.cruduserspringboot.dto.OrcamentoResponseDto;
 import br.jeanheberth.cruduserspringboot.entities.Departamento;
 import br.jeanheberth.cruduserspringboot.entities.Orcamento;
+import br.jeanheberth.cruduserspringboot.exception.MyOwnRuntimeException;
 import br.jeanheberth.cruduserspringboot.repository.DepartamentoRepository;
 import br.jeanheberth.cruduserspringboot.repository.OrcamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,31 +33,36 @@ public class OrcamentoService {
     public OrcamentoResponseDto findByIdOrcamento(Long id) {
         Optional<Orcamento> orcamento = orcamentoRepository.findById(id);
         OrcamentoResponseDto orcamentoResponseDto = new OrcamentoResponseDto(orcamento.get());
-        if (orcamento.isPresent()) {
+        if (true) {
             return orcamentoResponseDto;
-        } else {
-            throw new RuntimeException();
         }
+        throw new RuntimeException();
     }
 
-    public void deleteByIdOrcamento(Long id) {
-        orcamentoRepository.deleteById(id);
-
+    public void deleteByIdOrcamento(Long id) throws Throwable {
+        if (orcamentoRepository.findById(id).isPresent()){
+            orcamentoRepository.deleteById(id);
+        }
+        throw new RuntimeException();
     }
 
-    public OrcamentoResponseDto saveOrcamento(OrcamentoRequestDto orcamentoRequestDto) {
+
+    public Optional<OrcamentoResponseDto> saveOrcamento(OrcamentoRequestDto orcamentoRequestDto) {
         Optional<Departamento> departamento = departamentoRepository.findById(orcamentoRequestDto.getIdDepartamento());
-        Orcamento orcamento = Orcamento.builder()
-                .valor(orcamentoRequestDto.getValor())
-                .dataInicio(orcamentoRequestDto.getDataInicio())
-                .dataFinal(orcamentoRequestDto.getDataFinal())
-                .departamento(departamento.get())
-                .build();
-        OrcamentoResponseDto orcamentoResponseDto = new OrcamentoResponseDto(orcamentoRepository.save(orcamento));
-        return orcamentoResponseDto;
+        return orcamentoRepository.findById(orcamentoRequestDto.getId())
+                .map(orcamento -> {
+                    orcamento.setValor(orcamentoRequestDto.getValor());
+                    orcamento.setDataInicio(orcamentoRequestDto.getDataInicio());
+                    orcamento.setDataFinal(orcamentoRequestDto.getDataFinal());
+                    orcamento.setDepartamento(departamento.get());
+                    OrcamentoResponseDto orcamentoResponseDto = new OrcamentoResponseDto(orcamentoRepository.save(orcamento));
+                    return orcamentoResponseDto;
+                });
+
+
     }
 
-    public Optional <OrcamentoResponseDto> updateDepartamento(OrcamentoRequestDto orcamentoRequestDto) {
+    public Optional<OrcamentoResponseDto> updateDepartamento(OrcamentoRequestDto orcamentoRequestDto) {
         Optional<Departamento> departamento = departamentoRepository.findById(orcamentoRequestDto.getIdDepartamento());
         return orcamentoRepository.findById(orcamentoRequestDto.getId())
                 .map(orcamento -> {
@@ -68,4 +74,6 @@ public class OrcamentoService {
                     return orcamentoResponseDto;
                 });
     }
+
+
 }
