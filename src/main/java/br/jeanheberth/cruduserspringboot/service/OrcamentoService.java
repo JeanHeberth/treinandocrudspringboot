@@ -40,24 +40,27 @@ public class OrcamentoService {
     }
 
     public void deleteByIdOrcamento(Long id) throws Throwable {
-        if (orcamentoRepository.findById(id).isPresent()){
+        if (orcamentoRepository.findById(id).isPresent()) {
             orcamentoRepository.deleteById(id);
         }
-        throw new RuntimeException();
+        throw new MyOwnRuntimeException();
     }
 
 
-    public Optional<OrcamentoResponseDto> saveOrcamento(OrcamentoRequestDto orcamentoRequestDto) {
-        Optional<Departamento> departamento = departamentoRepository.findById(orcamentoRequestDto.getIdDepartamento());
-        return orcamentoRepository.findById(orcamentoRequestDto.getId())
-                .map(orcamento -> {
-                    orcamento.setValor(orcamentoRequestDto.getValor());
-                    orcamento.setDataInicio(orcamentoRequestDto.getDataInicio());
-                    orcamento.setDataFinal(orcamentoRequestDto.getDataFinal());
-                    orcamento.setDepartamento(departamento.get());
-                    OrcamentoResponseDto orcamentoResponseDto = new OrcamentoResponseDto(orcamentoRepository.save(orcamento));
-                    return orcamentoResponseDto;
-                });
+    public OrcamentoResponseDto saveOrcamento(OrcamentoRequestDto orcamentoRequestDto) {
+        Orcamento orcamento = Orcamento.builder()
+                .id(orcamentoRequestDto.getId())
+                .valor(orcamentoRequestDto.getValor())
+                .dataInicio(orcamentoRequestDto.getDataInicio())
+                .dataFinal(orcamentoRequestDto.getDataFinal())
+                .departamento(Departamento.builder()
+                .id(orcamentoRequestDto.getIdDepartamento())
+                .build())
+                .build();
+
+
+        OrcamentoResponseDto orcamentoResponseDto = new OrcamentoResponseDto(orcamentoRepository.save(orcamento));
+        return orcamentoResponseDto;
 
 
     }

@@ -29,6 +29,7 @@ public class DepartamentoServiceTest {
     @Test
     public void deveSalvarUmDepartamento(){
         Departamento departamento = Departamento.builder()
+                .id(1L)
                 .nome("Teste1")
                 .numero(10L)
                 .build();
