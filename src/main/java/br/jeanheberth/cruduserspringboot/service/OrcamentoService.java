@@ -4,7 +4,6 @@ import br.jeanheberth.cruduserspringboot.dto.OrcamentoRequestDto;
 import br.jeanheberth.cruduserspringboot.dto.OrcamentoResponseDto;
 import br.jeanheberth.cruduserspringboot.entities.Departamento;
 import br.jeanheberth.cruduserspringboot.entities.Orcamento;
-import br.jeanheberth.cruduserspringboot.exception.MyOwnRuntimeException;
 import br.jeanheberth.cruduserspringboot.repository.DepartamentoRepository;
 import br.jeanheberth.cruduserspringboot.repository.OrcamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +42,7 @@ public class OrcamentoService {
         if (orcamentoRepository.findById(id).isPresent()) {
             orcamentoRepository.deleteById(id);
         }
-        throw new MyOwnRuntimeException();
     }
-
 
     public OrcamentoResponseDto saveOrcamento(OrcamentoRequestDto orcamentoRequestDto) {
         Orcamento orcamento = Orcamento.builder()
@@ -54,15 +51,10 @@ public class OrcamentoService {
                 .dataInicio(orcamentoRequestDto.getDataInicio())
                 .dataFinal(orcamentoRequestDto.getDataFinal())
                 .departamento(Departamento.builder()
-                .id(orcamentoRequestDto.getIdDepartamento())
-                .build())
+                .id(orcamentoRequestDto.getIdDepartamento()).build())
                 .build();
-
-
         OrcamentoResponseDto orcamentoResponseDto = new OrcamentoResponseDto(orcamentoRepository.save(orcamento));
         return orcamentoResponseDto;
-
-
     }
 
     public Optional<OrcamentoResponseDto> updateDepartamento(OrcamentoRequestDto orcamentoRequestDto) {
@@ -77,6 +69,4 @@ public class OrcamentoService {
                     return orcamentoResponseDto;
                 });
     }
-
-
 }

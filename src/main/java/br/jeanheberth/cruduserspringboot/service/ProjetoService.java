@@ -44,15 +44,14 @@ public class ProjetoService {
         projetoRepository.deleteById(id);
     }
 
-   /* Metodo para salvar projeto */
+    /* Metodo para salvar projeto */
     public ProjetoResponseDto saveProjeto(ProjetoRequestDto projetoRequestDto) {
-        Optional<Departamento> departamento = departamentoRepository.findById(projetoRequestDto.getIdDepartamento());
         Projeto projeto = Projeto.builder()
                 .nome(projetoRequestDto.getNome())
                 .valorDoProjeto(projetoRequestDto.getValorDoProjeto())
                 .dataInicio(projetoRequestDto.getDataInicio())
                 .dataFinal(projetoRequestDto.getDataFinal())
-                .departamento(departamento.get())
+                .departamento(Departamento.builder().id(projetoRequestDto.getId()).build())
                 .build();
         ProjetoResponseDto projetoResponseDto = new ProjetoResponseDto(projetoRepository.save(projeto));
         return projetoResponseDto;
