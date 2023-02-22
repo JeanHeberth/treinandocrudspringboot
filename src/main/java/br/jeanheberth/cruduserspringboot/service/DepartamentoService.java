@@ -15,17 +15,17 @@ import java.util.stream.Collectors;
 public class DepartamentoService {
 
     @Autowired
-    DepartamentoRepository departamentoRepositoy;
+    DepartamentoRepository departamentoRepository;
 
     public List<DepartamentoResponseDto> findAllDepartamento() {
-        List<Departamento> departamentos = departamentoRepositoy.findAll();
+        List<Departamento> departamentos = departamentoRepository.findAll();
         List<DepartamentoResponseDto> departamentoResponseDtos = departamentos.stream()
                 .map(departamento -> new DepartamentoResponseDto(departamento)).collect(Collectors.toList());
         return departamentoResponseDtos;
     }
 
     public DepartamentoResponseDto findByIdDepartamento(Long id) {
-        Optional<Departamento> departamento = departamentoRepositoy.findById(id);
+        Optional<Departamento> departamento = departamentoRepository.findById(id);
         DepartamentoResponseDto departamentoResponseDto = new DepartamentoResponseDto(departamento.get());
         if (departamento.isPresent()) {
             return departamentoResponseDto;
@@ -35,7 +35,7 @@ public class DepartamentoService {
     }
 
     public void deleteByIdDepartamento(Long id) {
-        departamentoRepositoy.deleteById(id);
+        departamentoRepository.deleteById(id);
     }
 
     public DepartamentoResponseDto saveDepartamento(DepartamentoRequestDto departamentoRequestDto) {
@@ -43,16 +43,16 @@ public class DepartamentoService {
                 .nome(departamentoRequestDto.getNome())
                 .numero(departamentoRequestDto.getNumero())
                 .build();
-        DepartamentoResponseDto departamentoResponseDto = new DepartamentoResponseDto(departamentoRepositoy.save(departamento));
+        DepartamentoResponseDto departamentoResponseDto = new DepartamentoResponseDto(departamentoRepository.save(departamento));
         return departamentoResponseDto;
     }
 
     public Optional<DepartamentoResponseDto> updateDepartamento(DepartamentoRequestDto departamentoRequestDto) {
-        return departamentoRepositoy.findById(departamentoRequestDto.getId())
+        return departamentoRepository.findById(departamentoRequestDto.getId())
                 .map(departamento -> {
                     departamento.setNome(departamentoRequestDto.getNome());
                     departamento.setNumero(departamentoRequestDto.getNumero());
-                    DepartamentoResponseDto departamentoResponseDto = new DepartamentoResponseDto(departamentoRepositoy.save(departamento));
+                    DepartamentoResponseDto departamentoResponseDto = new DepartamentoResponseDto(departamentoRepository.save(departamento));
                     return departamentoResponseDto;
                 });
     }

@@ -23,9 +23,8 @@ public class ProjetoService {
     /* Metodo para listar todos os projetos */
     public List<ProjetoResponseDto> findAllProjetos() {
         List<Projeto> projetos = projetoRepository.findAll();
-        List<ProjetoResponseDto> projetoResponseDtos = projetos.stream()
-                .map(projeto -> new ProjetoResponseDto(projeto)).collect(Collectors.toList());
-        return projetoResponseDtos;
+        return projetos.stream()
+                .map(ProjetoResponseDto::new).collect(Collectors.toList());
 
     }
 
@@ -33,10 +32,7 @@ public class ProjetoService {
     public ProjetoResponseDto findByIdProjeto(Long id) {
         Optional<Projeto> projeto = projetoRepository.findById(id);
         ProjetoResponseDto projetoResponseDto = new ProjetoResponseDto(projeto.get());
-        if (projeto.isPresent()) {
-            return projetoResponseDto;
-        }
-        throw new RuntimeException();
+        return projetoResponseDto;
     }
 
     /* Metodo para deletar o projeto por id */
