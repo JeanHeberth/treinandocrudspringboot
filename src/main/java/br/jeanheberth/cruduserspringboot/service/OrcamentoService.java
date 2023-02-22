@@ -50,8 +50,7 @@ public class OrcamentoService {
                 .valor(orcamentoRequestDto.getValor())
                 .dataInicio(orcamentoRequestDto.getDataInicio())
                 .dataFinal(orcamentoRequestDto.getDataFinal())
-                .departamento(Departamento.builder()
-                .id(orcamentoRequestDto.getIdDepartamento()).build())
+                .departamento(Departamento.builder().id(orcamentoRequestDto.getIdDepartamento()).build())
                 .build();
         OrcamentoResponseDto orcamentoResponseDto = new OrcamentoResponseDto(orcamentoRepository.save(orcamento));
         return orcamentoResponseDto;

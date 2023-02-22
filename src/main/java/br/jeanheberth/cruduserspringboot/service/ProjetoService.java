@@ -47,11 +47,12 @@ public class ProjetoService {
     /* Metodo para salvar projeto */
     public ProjetoResponseDto saveProjeto(ProjetoRequestDto projetoRequestDto) {
         Projeto projeto = Projeto.builder()
+                .id(projetoRequestDto.getId())
                 .nome(projetoRequestDto.getNome())
                 .valorDoProjeto(projetoRequestDto.getValorDoProjeto())
                 .dataInicio(projetoRequestDto.getDataInicio())
                 .dataFinal(projetoRequestDto.getDataFinal())
-                .departamento(Departamento.builder().id(projetoRequestDto.getId()).build())
+                .departamento(Departamento.builder().id(projetoRequestDto.getIdDepartamento()).build())
                 .build();
         ProjetoResponseDto projetoResponseDto = new ProjetoResponseDto(projetoRepository.save(projeto));
         return projetoResponseDto;
