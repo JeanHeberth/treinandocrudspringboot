@@ -31,8 +31,7 @@ public class ProjetoService {
     /* Metodo para buscar projeto por id */
     public ProjetoResponseDto findByIdProjeto(Long id) {
         Optional<Projeto> projeto = projetoRepository.findById(id);
-        ProjetoResponseDto projetoResponseDto = new ProjetoResponseDto(projeto.get());
-        return projetoResponseDto;
+        return new ProjetoResponseDto(projeto.get());
     }
 
     /* Metodo para deletar o projeto por id */
