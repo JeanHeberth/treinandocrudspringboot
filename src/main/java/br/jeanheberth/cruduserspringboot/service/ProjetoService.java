@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -22,16 +23,17 @@ public class ProjetoService {
 
     /* Metodo para listar todos os projetos */
     public List<ProjetoResponseDto> findAllProjetos() {
-        List<Projeto> projetos = projetoRepository.findAll();
-        return projetos.stream()
+        return projetoRepository.findAll()
+                .stream()
                 .map(ProjetoResponseDto::new).collect(Collectors.toList());
 
     }
 
     /* Metodo para buscar projeto por id */
     public ProjetoResponseDto findByIdProjeto(Long id) {
-        Optional<Projeto> projeto = projetoRepository.findById(id);
-        return new ProjetoResponseDto(projeto.get());
+        Projeto projeto = projetoRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Projeto nao encontrado"));
+        return new ProjetoResponseDto(projeto);
     }
 
     /* Metodo para deletar o projeto por id */
@@ -41,16 +43,14 @@ public class ProjetoService {
 
     /* Metodo para salvar projeto */
     public ProjetoResponseDto saveProjeto(ProjetoRequestDto projetoRequestDto) {
-        Projeto projeto = Projeto.builder()
+        return new ProjetoResponseDto(projetoRepository.save(Projeto.builder()
                 .id(projetoRequestDto.getId())
                 .nome(projetoRequestDto.getNome())
                 .valorDoProjeto(projetoRequestDto.getValorDoProjeto())
                 .dataInicio(projetoRequestDto.getDataInicio())
                 .dataFinal(projetoRequestDto.getDataFinal())
                 .departamento(Departamento.builder().id(projetoRequestDto.getIdDepartamento()).build())
-                .build();
-        ProjetoResponseDto projetoResponseDto = new ProjetoResponseDto(projetoRepository.save(projeto));
-        return projetoResponseDto;
+                .build()));
     }
 
     /* Metodo par atualizar projeto */
@@ -62,9 +62,9 @@ public class ProjetoService {
                     projeto.setDataInicio(projetoRequestDto.getDataInicio());
                     projeto.setDataFinal(projetoRequestDto.getDataFinal());
                     projeto.setValorDoProjeto(projetoRequestDto.getValorDoProjeto());
-                    projeto.setDepartamento(departamento.get());
-                    ProjetoResponseDto projetoResponseDto = new ProjetoResponseDto(projetoRepository.save(projeto));
-                    return projetoResponseDto;
-                });
+                    projeto.setDepartamento(departamento.orElseThrow(() -> new NoSuchElementException("Departamento not found with id: " + projetoRequestDto.getIdDepartamento())));
+                    return projetoRepository.save(projeto);
+                })
+                .map(ProjetoResponseDto::new);
     }
 }

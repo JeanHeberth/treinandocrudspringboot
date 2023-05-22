@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -18,15 +19,17 @@ public class DepartamentoService {
     DepartamentoRepository departamentoRepository;
 
     public List<DepartamentoResponseDto> findAllDepartamento() {
-        List<Departamento> departamentos = departamentoRepository.findAll();
-        return departamentos.stream()
-                .map(DepartamentoResponseDto::new).collect(Collectors.toList());
+        return departamentoRepository.findAll()
+                .stream()
+                .map(DepartamentoResponseDto::new)
+                .collect(Collectors.toList());
     }
 
     public DepartamentoResponseDto findByIdDepartamento(Long id) {
-        Optional<Departamento> departamento = departamentoRepository.findById(id);
-        DepartamentoResponseDto departamentoResponseDto = new DepartamentoResponseDto(departamento.get());
-        return departamentoResponseDto;
+        Departamento departamento = departamentoRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Departamento nao encontrado: " + id));
+        return new DepartamentoResponseDto(departamento);
+
     }
 
     public void deleteByIdDepartamento(Long id) {
@@ -34,11 +37,10 @@ public class DepartamentoService {
     }
 
     public DepartamentoResponseDto saveDepartamento(DepartamentoRequestDto departamentoRequestDto) {
-        Departamento departamento = Departamento.builder()
+        return new DepartamentoResponseDto(departamentoRepository.save(Departamento.builder()
                 .nome(departamentoRequestDto.getNome())
                 .numero(departamentoRequestDto.getNumero())
-                .build();
-        return new DepartamentoResponseDto(departamentoRepository.save(departamento));
+                .build()));
     }
 
     public Optional<DepartamentoResponseDto> updateDepartamento(DepartamentoRequestDto departamentoRequestDto) {
@@ -46,10 +48,13 @@ public class DepartamentoService {
                 .map(departamento -> {
                     departamento.setNome(departamentoRequestDto.getNome());
                     departamento.setNumero(departamentoRequestDto.getNumero());
-                    return new DepartamentoResponseDto(departamentoRepository.save(departamento));
-                });
+                    return departamento;
+                })
+                .map(departamentoRepository::save)
+                .map(DepartamentoResponseDto::new);
     }
 }
+
 
 
 

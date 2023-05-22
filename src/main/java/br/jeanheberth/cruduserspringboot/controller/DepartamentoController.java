@@ -42,9 +42,4 @@ public class DepartamentoController {
     public ResponseEntity<Optional<DepartamentoResponseDto>> updateDepartamento(@Validated @RequestBody DepartamentoRequestDto departamentoRequestDto) {
         return ResponseEntity.ok(departamentoService.updateDepartamento(departamentoRequestDto));
     }
-
-    @GetMapping("/teste")
-    public String index(){
-        return  "Ola Mundo!";
-    }
 }
